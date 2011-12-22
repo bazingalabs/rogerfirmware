@@ -2,20 +2,46 @@
 #include "rf12b.h"
 
 
-int mode = RX;
-boolean rfa = false;
-byte remaining = 0;
-byte state = STATE_LENGTH;
-boolean packet_received = false;
+RF12B::RF12B():recv_buffer() {
+	mode = RX;
+	rfa = false;
+	remaining = 0;
+	state = STATE_LENGTH;
+	packet_received = false;
+	//callbackISR.attach(this,&RF12B::rxISR);
+	// = CircularBuffer<byte,50>();
+	delay(100);
+	portInit();
+	rfInit();
+ //   RF12B::self = this;
+  //  if (MODE) {
+	FIFOReset();
+    //}
+	
+}
+RF12B* RF12B::m_pInstance = NULL; 
 
-CircularBuffer<byte,50> recv_buffer = CircularBuffer<byte,50>();
-void portInit() {
+RF12B* RF12B::Instance() {
+	if (!m_pInstance)   // Only allow one instance of class to be generated.
+		
+      m_pInstance = new RF12B;
+	
+   return m_pInstance;
+		
+}
+
+
+void RF12B::portInit() {
 	SPI.begin();
 	SPI.setClockDivider(SPI_CLOCK_DIV8);
 	SPI.setDataMode(SPI_MODE0);
 }
 
-void rfInit() {
+void rxISRFunc() {
+	RF12B::Instance()->rxISR();
+}
+
+void RF12B::rfInit() {
 	pinMode(NIRQ_PIN, INPUT);
 	pinMode(nFFS_PIN, INPUT);
   
@@ -38,23 +64,23 @@ void rfInit() {
 	writeCmd(0xC800); //NOT USED
 	writeCmd(0xC040); //1.66MHz,2.2V
 	//attachInterrupt(0, rxISR,FALLING);
-	attachInterrupt(1, rxISR,RISING);
+	attachInterrupt(1, rxISRFunc,RISING);
 }
 
-void rfSend(unsigned char data){
+void RF12B::rfSend(unsigned char data){
 	while(digitalRead(NIRQ_PIN) == HIGH);
 	writeCmd(0xB800 + data);
 }
-boolean packetAvailable() {
+boolean RF12B::packetAvailable() {
 	return packet_received; 
 }
-boolean rfAvailable() {
+boolean RF12B::rfAvailable() {
     //Serial.print("REMAIN: ");
     //Serial.println(recv_buffer.remain());
 	return recv_buffer.remain();
 }
   
-void rxISR() {
+void RF12B::rxISR() {
     
 	unsigned int data;
 	if (mode == RX) {
@@ -88,17 +114,17 @@ void rxISR() {
     
 }
   
-byte rfRecv() {
+byte RF12B::rfRecv() {
 	return recv_buffer.pop();
 }
 
-void FIFOReset() {
+void RF12B::FIFOReset() {
 	writeCmd(0xCA81);
 	writeCmd(0xCA83);
 }
 
 
-void sendPacket(byte * buf, byte length) {
+void RF12B::sendPacket(byte * buf, byte length) {
 	changeMode(TX);
 	byte crc = 0;
   
@@ -130,7 +156,7 @@ void sendPacket(byte * buf, byte length) {
 }
   
   
-void recvPacket() {
+void RF12B::recvPacket() {
 	byte crc = 0;
 	int data = 0;
 	int length = rfRecv();
@@ -163,7 +189,7 @@ void recvPacket() {
 }
   
   
-unsigned int writeCmd(unsigned int cmd) {
+unsigned int RF12B::writeCmd(unsigned int cmd) {
 	digitalWrite(CS_PIN,LOW);
 	uint16_t reply = SPI.transfer(cmd >> 8) << 8;
 	reply |= SPI.transfer(cmd);
@@ -172,7 +198,7 @@ unsigned int writeCmd(unsigned int cmd) {
 	return reply;
 }
 
-void changeMode(int _mode) {
+void RF12B::changeMode(int _mode) {
 	mode = _mode;
 	if (_mode == TX) {
 		writeCmd(0x8239); //!er,!ebb,ET,ES,EX,!eb,!ew,DC
@@ -181,7 +207,7 @@ void changeMode(int _mode) {
 	}
 }
 
-unsigned char crc8(unsigned char crc, unsigned char data) {
+unsigned char RF12B::crc8(unsigned char crc, unsigned char data) {
 	crc = crc ^ data;
 	for (int i = 0; i < 8; i++) {
 		if (crc & 0x01) {
@@ -193,6 +219,6 @@ unsigned char crc8(unsigned char crc, unsigned char data) {
 	return crc;
 }
 
-unsigned int status() {
+unsigned int RF12B::status() {
 	return writeCmd(0x0000);
 }
