@@ -24,12 +24,11 @@ RF12B* RF12B::m_pInstance = NULL;
 RF12B* RF12B::Instance() {
 	if (!m_pInstance)   // Only allow one instance of class to be generated.
 		
-      m_pInstance = new RF12B;
+		m_pInstance = new RF12B;
 	
-   return m_pInstance;
+	return m_pInstance;
 		
 }
-
 
 void RF12B::portInit() {
 	SPI.begin();
@@ -81,8 +80,6 @@ boolean RF12B::rfAvailable() {
 }
   
 void RF12B::rxISR() {
-    
-	unsigned int data;
 	if (mode == RX) {
       //Serial.println("DATA");
 		switch (state) {

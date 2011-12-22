@@ -27,6 +27,15 @@ class RF12B {
 		unsigned int status();
 		static void callbackISR();
 		static RF12B* Instance();
+		RF12B* operator() () {
+			if (!m_pInstance)   // Only allow one instance of class to be generated.
+		
+		      m_pInstance = new RF12B;
+	
+		   return m_pInstance;
+		
+		}
+		
 		
 	private:
 		RF12B();
