@@ -49,7 +49,7 @@ UPLOAD_RATE = 57600
 AVRDUDE_PROGRAMMER = stk500v1
 AVRDUDE_ISP_PROGRAMMER = avrispmkii
 MCU = atmega328p
-F_CPU = 8000000
+F_CPU = 16000000
 
 VERSION=100
 ARDUINO = $(INSTALL_DIR)/hardware/arduino/cores/arduino
@@ -203,7 +203,7 @@ applet/main.cpp: $(TARGET).ino
 	cat $(TARGET).ino >> applet/main.cpp
 	cat $(ARDUINO)/main.cpp >> applet/main.cpp
 
-applet/main.o: $(TARGET).ino
+applet/main.o: applet/main.cpp $(TARGET).ino
 	$(CXX) -c $(ALL_CXXFLAGS) applet/main.cpp -o applet/main.o
 
 
@@ -227,7 +227,7 @@ sizebefore:
 	@if [ -f applet/main.elf ]; then echo; echo $(MSG_SIZE_BEFORE); $(HEXSIZE); echo; fi
 
 sizeafter:
-	@if [ -f applet/main.elf ]; then echo; echo $(MSG_SIZE_AFTER); $(HEXSIZE); echo; fi
+	@if [ -f applet/main.elf ]; then echo; echo $(MSG_SIZE_AFTER); $(ELFSIZE); echo; fi
 
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
@@ -266,7 +266,7 @@ extcoff: main.elf
 
 # Link: create ELF output file from library.
 #applet/$(TARGET).elf: $(TARGET).pde applet/core.a
-applet/main.elf: applet/main.o applet/core.a
+applet/main.elf: applet/main.o applet/core.a $(TARGET).ino
 	$(LD) $(ALL_LDFLAGS) -o $@ applet/main.o applet/core.a
 
 applet/core.a: $(OBJ_MODULES)
@@ -302,7 +302,8 @@ applet/core.a: $(OBJ_MODULES)
 
 # Target: clean project.
 clean:
-	$(REMOVE) applet/main.hex applet/main.eep applet/main.cof applet/main.elf \
+	$(REMOVE) applet/main.cpp applet/main.hex applet/main.eep applet/main.cof \
+	applet/main.elf \
 	applet/main.map applet/main.sym applet/main.o applet/main.lss applet/core.a \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
 
