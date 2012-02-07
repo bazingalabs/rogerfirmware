@@ -13,9 +13,10 @@ For documentation on the RF12B library check the wiki https://github.com/bazinga
 
 ## Features
 The modules is available in three flavours  
-+ 434MHz
-+ 868MHz
-+ 915MHz
+
+- 434MHz
+- 868MHz
+- 915MHz
 
 Easy configuration  
 
