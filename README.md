@@ -38,6 +38,7 @@ To get ready for development follow the following steps
 ## Prerequisits
 * Arduino ide http://arduino.cc/en/Main/Software
 * RF12B Library https://github.com/bazingalabs/RF12B
+* Modified Messenger library https://github.com/bazingalabs/Messenger
 
 Follow the necessary steps on the websites linked
 

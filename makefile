@@ -139,7 +139,7 @@ CXXTUNING = -fno-exceptions -ffunction-sections -fdata-sections
 CFLAGS = $(CDEBUG) -O$(OPT) $(CWARN) $(CTUNING) $(CDEFS) $(CINCS) $(CSTANDARD) $(CEXTRA)
 CXXFLAGS = $(CDEBUG) -O$(OPT) $(CWARN) $(CXXTUNING) $(CDEFS) $(CINCS)
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
-LDFLAGS = -O$(OPT) -lm -Wl,--gc-sections
+LDFLAGS = -O$(OPT) -Wl,--gc-sections -lm
 
 
 # Programming support using avrdude. Settings and variables.
@@ -267,7 +267,7 @@ extcoff: main.elf
 # Link: create ELF output file from library.
 #applet/$(TARGET).elf: $(TARGET).pde applet/core.a
 applet/main.elf: applet/main.o applet/core.a $(TARGET).ino
-	$(LD) $(ALL_LDFLAGS) -o $@ applet/main.o applet/core.a
+	$(LD) -o $@ applet/main.o applet/core.a $(ALL_LDFLAGS)
 
 applet/core.a: $(OBJ_MODULES)
 	@for i in $(OBJ_MODULES); do echo $(AR) rcs applet/core.a $$i; $(AR) rcs applet/core.a $$i; done

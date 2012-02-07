@@ -1,20 +1,15 @@
-/**
-Fatih University 
-We write string , utils library to avoid importing whole string library
-These functions are spesific for this program cannot be used everywhere
-**/
 
-extern char ftolower(char c);
-extern int  fstricmp(char* s1,char* s2);
-extern int  fatoi(char* s1);
-extern int  fstrcpy(const char* s,char* d);
-extern int  ftokpos;
-extern char* ftokstr;
-extern char temp[20];
-extern char*fstrtok(char* s,char c);
-
-
-
-
-
-
+#ifndef UTILS_H
+#define UTILS_H
+#define RADIO 2
+#include <Arduino.h>
+#include <avr/pgmspace.h>
+#include "Messenger.h"
+#include "RF12B.h"
+	void printConsoleHelp();
+	void PROGMEMprint(const prog_uchar str[]);
+	extern Messenger console;
+	extern bool consoleActive;
+	extern int commandState;
+	void handleConsole();
+#endif

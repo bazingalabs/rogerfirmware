@@ -2,10 +2,12 @@
 #include <RF12B.h>
 #include <rf_packet.h>
 #include <EEPROM.h>
-#include "console.h"
+#include "Utils.h"
+#include <Messenger.h>
 #include "MemoryFree.h"
 
-#define BUFFER_SIZE 40
+
+#define SERIAL_BUFFER_SIZE 40
 #define TIMEOUT 50
 #define PRE_GUARD 1
 #define RADIO 2
@@ -15,38 +17,39 @@
 int console_active=0;
 int commandState = RADIO;
 int last_pos=0;
-byte buf[BUFFER_SIZE];
+byte buf[SERIAL_BUFFER_SIZE];
 int i = 0;
 int counter = 0;
 unsigned long t = 0,s=0;
 unsigned long seq = 0;
 bool enterConsole = false;
 bool exitConsole = false;
+bool consoleActive = false;
+Messenger console = Messenger(); 
 
 void setup() {
 	pinMode(1, INPUT);
 	Serial.begin(57600);
 	RF12.begin();
-	console.begin();
+	console.attach(handleConsole);
 	t=millis();
-	Serial.println("freeMem()=");
-	Serial.println(freeMemory());
+	//Serial.println("freeMem()=");
+	//Serial.println(freeMemory());
 }
-
 
 void loop() {
 	if (enterConsole) {
 		RF12.disableISR();
-		console.printUsage();
+		printConsoleHelp();
 		//Serial.flush();
 		enterConsole = false;
-		console_active = true;
-		Serial.println("freeMem()=");
-		Serial.println(freeMemory());
+		consoleActive = true;
+		//Serial.println("freeMem()=");
+		//Serial.println(freeMemory());
 	}
 
-	if (console_active) {
-		console.show();
+	if (consoleActive) {
+		if ( Serial.available() ) console.process(Serial.read ());
 	}
 
 	if (exitConsole) {
