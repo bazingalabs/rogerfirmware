@@ -74,23 +74,36 @@
 <li>Bazinga ‘STACKY’ compatible: the ROGERv3 module can be combined with other Bazingalabs modules like motor controllers, processors, sensor boards, battery boards etc Just stack one module on top of one or more other modules and you’re ready to go!</li>
 </ul>
     
-
-    
-      <h2>Dependencies</h2>
-      <p>https://github.com/bazingalabs/Messenger</p>
-    
-
-    
-      <h2>Install</h2>
+      <h2>Getting started guide</h2>
       <ol>
-<li>Go to your arduino projects directory</li>
+<li>Connect your Roger module to a arduino or other microcontroller as shown below</li>
 
-<li>Clone the repository <code>git clone git@github.com:bazingalabs/rogerfirmware.git</code></li>
+<li>Open the Arduino IDE</li>
 
-<li>Open rogerfimware.ino inside Arduino IDE</li>
+<li>Create a simple sketch like the example below</li>
 
-<li>Now you can hack all you like</li>
+<li>Upload the example to your microcontroller</li>
+
+<li>Connect the other Roger module to a Proger or XBee Explorer</li>
+
+<li>Select the right port in the <em>Tools-&gt;Serial Port</em> menu</li>
+
+<li>Open the serial monitor</li>
+
+<li>Select the correct baudrate (57600 by default)</li>
+
+<li>You should now see the text &#8220;Hello World&#8221; appearing</li>
 </ol>
+<pre>
+void setup() {
+  Serial.begin(57600);
+}
+
+void loop() {
+  Serial.println("Hellow World");
+  delay(1000);
+}
+</pre>
     
 
     
