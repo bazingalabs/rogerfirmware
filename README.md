@@ -1,7 +1,7 @@
 # Firmware for the Bazingalabs Roger
-This is the firmware for the Bazingalabs Roger board 
-The board uses a RF12B from Hoperf (http://www.hoperf.com)
-The board has a XBee compatible footprint and should fit into any existing  
+This is the firmware for the Bazingalabs Roger board  
+The board uses a RF12B from Hoperf (http://www.hoperf.com)  
+The board has a XBee compatible footprint and should fit into any existing   
 XBee sockets like for example an Arduino FIO or XBee explorer.  
 ![Bazingalabs Roger](http://www.bazingalabs.com/assets/products/11/product/IMG_1577.jpg?1327752108 "Bazingalabs Roger]" =150x150)
 
@@ -48,5 +48,4 @@ Follow the necessary steps on the websites linked
 <code>git clone git@github.com:bazingalabs/rogerfirmware.git</code>
 3. Open rogerfimware.ino inside Arduino IDE
 4. Now you can hack all you like
-
 
