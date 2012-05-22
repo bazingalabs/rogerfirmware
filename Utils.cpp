@@ -53,8 +53,8 @@ void handleConsole() {
 				int channel = console.readInt();
 				RF12.setChannel(channel);
 			} else {
-				Serial.print("Channel: ");
-				Serial.println(RF12.getChannel());	
+				//Serial.print("Channel: ");
+				//Serial.println(RF12.getChannel());	
 			}
 		}
 
@@ -63,8 +63,8 @@ void handleConsole() {
 				int datarate = console.readInt();
 				RF12.setDatarate(datarate);
 			} else {
-				Serial.print("Datarate: ");
-				Serial.println(RF12.getDatarate());	
+				//Serial.print("Datarate: ");
+				//Serial.println(RF12.getDatarate());	
 			}
 		}
 
@@ -73,8 +73,8 @@ void handleConsole() {
 				int panid = console.readInt();
 				RF12.setPanID(panid);
 			} else {
-				Serial.print("Pan ID: ");
-				Serial.println(RF12.getPanID());	
+				//Serial.print("Pan ID: ");
+				//Serial.println(RF12.getPanID());	
 			}
 		}
 
