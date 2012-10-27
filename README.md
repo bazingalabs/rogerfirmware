@@ -3,7 +3,7 @@ This is the firmware for the Bazingalabs Roger board
 The board uses a RF12B from Hoperf (http://www.hoperf.com)  
 The board has a XBee compatible footprint and should fit into any existing   
 XBee sockets like for example an Arduino FIO or XBee explorer.  
-![Bazingalabs Roger](http://www.bazingalabs.com/assets/products/11/product/IMG_1577.jpg?1327752108 "Bazingalabs Roger]" =150x150)
+![Bazingalabs Roger](http://store.bazingalabs.com/spree/products/39/small/ROGER.jpg?1349897475 "Bazingalabs Roger]" =150x150)
 
 ## Documentation
 For a complete command reference see the wiki  
