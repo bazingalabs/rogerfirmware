@@ -77,7 +77,7 @@ void loop() {
 
 	if (Serial.available()>0 && commandState != CONSOLE) {
 		byte c = Serial.read();
-		//buf[i++] = c;
+		buf[i++] = c;
                 buf.push((byte)c);
                 //Serial.println("Buffer size:");
                 //Serial.println(buf.remain(),DEC);
@@ -85,12 +85,12 @@ void loop() {
 			commandState = PRE_GUARD;
 			s = millis();
 		} 
-		/*if(commandState == PRE_GUARD && i >= 3 && millis() - s <1000
+		if(commandState == PRE_GUARD && i >= 3 && millis() - s <1000
 					&& buf[i-3] == '+'
 					&& buf[i-2] == '+'
 					&& buf[i-1] == '+' ) {
 			commandState = CC_CHECK;
-		} */
+		}
 
 		if (millis()-s>1000) commandState = RADIO;
 		
